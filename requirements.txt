@@ -1,0 +1,4 @@
+requests>=2.32,<3
+tzdata>=2025.2
+openpyxl>=3.1,<4
+xlrd>=2.0,<3

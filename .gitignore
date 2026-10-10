@@ -1,0 +1,29 @@
+# Local environments, Python caches, builds
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.egg-info/
+# Runtime states, provider caches, private notification settings
+data/
+runtime/
+*cache*.json
+*settings*.json
+*state*.json
+*.json.tmp
+*.tmp
+*.log
+.env
+.env.*
+!.env.example
+# User exports / credentials / local app metadata
+*.sqlite*
+*.db
+*.pem
+*.key
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
