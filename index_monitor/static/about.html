@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>项目说明 · 全球指数回撤与信号看板</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./indices.css"><script src="./bootstrap.js" defer></script></head>
+<body><main class="page-shell"><section class="standalone-panel"><h1>全球指数回撤与信号看板</h1><p><a href="/">← 返回完整看板</a> · <a href="/index-signal-history">本地信号历史</a></p>
+<h2>保留整页，独立运行</h2><p>28 个行情标的，27 个参与 15 分钟 / 60 分钟 / 日线信号；宏观指标、历史页面和可选钉钉通知。没有券商登录、交易或自动下单功能。</p>
+<h2>回撤口径</h2><p>最高点是最近 3 个日历月内取得的日线最高价（不是历史最高价）。同交易日的最新报价刷新高点时会标记“报价新高”。回撤 =（最新价 ÷ 窗口高点 − 1）× 100%。负数表示低于高点。历史不足时只代表样本内高点；行情与历史不一致时不强行计算。</p><p>近一年涨跌为滚动一年，不是年初至今 YTD。SPY / QQQ 是 ETF；VIX、个股与各类指数口径不同，不能把高点回撤简单当作估值或买卖结论。</p>
+<h2>数据与信号</h2><p>内地与港股报价/日线：腾讯；内地分钟线：新浪；美国与日韩、港股分钟线：Yahoo；万得小市值指数：万得官网，仅作行情参考。宏观数据来自美国财政部、中国债券信息网、KOFIA、Yahoo、SAFE 和土耳其央行。来源可能延迟或改变接口；失败与缓存状态会单独展示。</p><p>评分不是胜率，信号不是投资建议。只有已完成 K 线用于确认；缺少分钟历史、校准不足、过期或行情异常时，不代表可靠的买卖机会。手动扫描不会发通知。此版本日历以 2026 年为范围，跨年应先维护日历。</p>
+<h2>通知与隐私</h2><p id="standaloneStatus">正在读取运行状态…</p><p>推送须通过 --allow-notifications 启动且在页面保存自己的 Webhook 并启用。测试按钮会实际发送消息；不要分享机器人地址。设置、缓存、历史保存在系统用户数据目录，不随代码发布。通知按原页规则保留，实际发送依赖网络、机器人配置和进程持续运行。</p>
+<h2>运行与授权</h2><p>本项目需要 Python 3.11+ 后端，不是 GitHub Pages 静态网页。安装 requirements.txt 后运行 python run.py 或双击 start.bat。服务只监听本机。代码尚未选择开源许可证；Public 不等于已授予开源许可。详细说明见仓库 README。</p></section></main></body></html>

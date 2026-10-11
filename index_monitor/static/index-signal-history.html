@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>指数信号历史状态变化</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./index-signal-history.css?v=index-history-20260803-1" />
+    <script src="./bootstrap.js" defer></script>
+  </head>
+  <body>
+    <header class="history-topbar">
+      <div>
+        <span class="eyebrow">Index signal history</span>
+        <h1>指数信号历史状态变化</h1>
+        <p>展示系统当前保留的全部状态切换，不再只看最近 20 条。</p>
+      </div>
+      <nav aria-label="页面导航">
+        <a href="/">返回主看板</a>
+        <a href="/indices">返回指数看板</a>
+      </nav>
+    </header>
+
+    <main class="history-shell">
+      <section class="history-overview">
+        <div>
+          <span class="eyebrow">History archive</span>
+          <h2>按日期、标的、周期和状态筛选</h2>
+          <p id="indexSignalHistorySummary" aria-live="polite">正在读取历史状态变化……</p>
+        </div>
+        <div class="history-kpis" aria-label="历史统计">
+          <div><strong id="indexSignalHistoryTotal">--</strong><span>保留记录</span></div>
+          <div><strong id="indexSignalHistoryVisible">--</strong><span>当前筛选</span></div>
+        </div>
+      </section>
+
+      <section class="history-filter-panel" aria-label="历史筛选">
+        <label>
+          <span>市场日期</span>
+          <input id="indexSignalHistoryDate" type="date" />
+        </label>
+        <label>
+          <span>标的</span>
+          <select id="indexSignalHistoryIndex"><option value="">全部标的</option></select>
+        </label>
+        <label>
+          <span>周期</span>
+          <select id="indexSignalHistoryTimeframe">
+            <option value="">全部周期</option>
+            <option value="short">短期·15分钟</option>
+            <option value="medium">中期·60分钟</option>
+            <option value="long">长期·日线</option>
+          </select>
+        </label>
+        <label>
+          <span>变化后状态</span>
+          <select id="indexSignalHistoryStatus">
+            <option value="">全部状态</option>
+            <option value="warning">预警</option>
+            <option value="confirmed">确认</option>
+            <option value="invalidated">失效</option>
+          </select>
+        </label>
+        <button id="indexSignalHistoryReset" type="button">重置筛选</button>
+      </section>
+
+      <section class="history-table-panel" aria-label="历史状态变化列表">
+        <div class="history-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>市场日期 / 变化时间</th>
+                <th>标的</th>
+                <th>周期</th>
+                <th>状态变化</th>
+                <th>评分</th>
+                <th>扫描阶段</th>
+                <th>推送</th>
+              </tr>
+            </thead>
+            <tbody id="indexSignalHistoryRows">
+              <tr><td colspan="7" class="empty-row">正在加载……</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="history-pagination">
+          <button id="indexSignalHistoryPrev" type="button">上一页</button>
+          <span id="indexSignalHistoryPage">第 1 / 1 页</span>
+          <button id="indexSignalHistoryNext" type="button">下一页</button>
+        </div>
+      </section>
+
+      <details class="history-score-guide">
+        <summary>评分构成与状态门槛</summary>
+        <p>评分是顶部或底部证据的一致性分数，满分 80 分，不是涨跌概率或历史胜率。</p>
+        <div class="score-grid">
+          <div><strong>35 分</strong><span>结构：双顶/双底、二次测试、关键位距离</span></div>
+          <div><strong>35 分</strong><span>价格确认：趋势、动量与相对强弱合计封顶</span></div>
+          <div><strong>10 分</strong><span>成交量：二次测试缩量、关键位放量突破</span></div>
+        </div>
+        <p>短期 15 分钟候选预警门槛为 40 分，中期 60 分钟为 45 分，两者不做单周期确认；长期日线预警门槛为 50 分，只有收盘评分达到 65 分且收盘价有效越过关键结构位时才确认。</p>
+      </details>
+    </main>
+
+    <script src="./index-signal-history.js?v=index-history-20260819-2"></script>
+  </body>
+</html>

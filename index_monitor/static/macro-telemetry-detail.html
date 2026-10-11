@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>宏观指标历史曲线</title>
+    <link rel="stylesheet" href="./macro-telemetry-detail.css?v=macro-history-20260803-1" />
+    <script src="./bootstrap.js" defer></script>
+  </head>
+  <body>
+    <header class="macro-history-topbar">
+      <div>
+        <span class="eyebrow">MACRO TELEMETRY ARCHIVE</span>
+        <h1 id="macroHistoryTitle">宏观指标历史曲线</h1>
+        <p id="macroHistorySubtitle">读取各来源可用历史序列，展示日、周、月、年曲线。</p>
+      </div>
+      <nav aria-label="页面导航">
+        <a href="/">返回主看板</a>
+        <a href="/indices">返回指数看板</a>
+      </nav>
+    </header>
+
+    <main class="macro-history-shell">
+      <section class="macro-history-overview" aria-label="指标概览">
+        <div class="macro-history-identity">
+          <div class="macro-history-badges">
+            <span id="macroHistoryRegion">--</span>
+            <span id="macroHistorySource">--</span>
+          </div>
+          <p id="macroHistoryCoverage">正在读取曲线覆盖区间……</p>
+        </div>
+        <div class="macro-history-kpis">
+          <div><strong id="macroHistoryLatestValue">--</strong><span id="macroHistoryUnit">最新值</span></div>
+          <div><strong id="macroHistoryLatestDate">--</strong><span>最新数据日</span></div>
+          <div><strong id="macroHistoryPointCount">--</strong><span>有效点位</span></div>
+        </div>
+      </section>
+
+      <section class="macro-history-panel" aria-labelledby="macroHistoryChartTitle">
+        <div class="macro-history-toolbar">
+          <div>
+            <span class="eyebrow">FULL CURVE</span>
+            <h2 id="macroHistoryChartTitle">完整历史曲线</h2>
+          </div>
+          <div class="macro-history-actions">
+            <div id="macroHistoryTabs" class="macro-history-tabs" role="tablist" aria-label="历史周期">
+              <button class="macro-history-tab" type="button" role="tab" data-interval="D">日线</button>
+              <button class="macro-history-tab" type="button" role="tab" data-interval="W">周线</button>
+              <button class="macro-history-tab" type="button" role="tab" data-interval="M">月线</button>
+              <button class="macro-history-tab" type="button" role="tab" data-interval="Y">年线</button>
+            </div>
+            <button id="macroHistoryRefresh" class="macro-history-refresh" type="button">刷新数据</button>
+          </div>
+        </div>
+
+        <div id="macroHistoryStatus" class="macro-history-status" role="status" aria-live="polite">
+          正在加载历史数据……
+        </div>
+
+        <div id="macroHistoryChartWrap" class="macro-history-chart-wrap">
+          <canvas id="macroHistoryCanvas" aria-label="宏观指标历史折线图"></canvas>
+          <div id="macroHistoryTooltip" class="macro-history-tooltip" hidden>
+            <strong data-field="date">--</strong>
+            <span data-field="value">--</span>
+          </div>
+        </div>
+
+        <div class="macro-history-footer">
+          <p id="macroHistoryGeneratedAt">更新时间：--</p>
+          <button id="macroHistoryRetry" type="button" hidden>重新加载</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="./macro-telemetry-detail.js?v=macro-history-20260803-1"></script>
+  </body>
+</html>

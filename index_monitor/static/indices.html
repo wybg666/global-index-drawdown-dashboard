@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>中美日韩主要指数与核心股票信号看板</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./indices.css?v=index-signal-decision-20260810-1" />
+    <script src="./bootstrap.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">🌍</div>
+        <div>
+          <h1>中美日韩主要指数与核心股票信号看板</h1>
+          <p>28 个行情标的（27 个参与指数信号）行情快照 + 回撤位置 + 短线 / 中期顶底结构</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span class="live-dot"></span>
+        <span>最后更新: <b id="updatedAt">--</b></span>
+        <button id="refreshBtn" type="button">↻ 刷新数据</button>
+        <a class="ghost-link" href="/about">项目说明</a>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="standalone-panel" aria-label="独立版运行说明">
+        <strong>独立版 · 最近 3 个月高点，不是历史最高点</strong>
+        <p>回撤 =（最新价 ÷ 最近 3 个日历月内已取得的日线最高价 − 1）× 100%。窗口边界覆盖不代表无缺失交易日；请核对每张卡的数据时点。</p>
+        <p id="standaloneStatus" role="status">正在读取本机运行状态…</p>
+        <div class="manual-scan-controls">
+          <label for="manualScanMarket">手动扫描信号</label>
+          <select id="manualScanMarket"><option value="CN">内地 · 10 个</option><option value="HK">香港 · 2 个</option><option value="US">美国 · 11 个</option><option value="JP_KR">日韩 · 4 个</option></select>
+          <button id="manualScanBtn" type="button">扫描（不推送）</button>
+          <span id="manualScanStatus" role="status">首次使用可手动扫描；刷新行情不会自动重新计算全部信号。</span>
+        </div>
+      </section>
+      <section class="hero-panel">
+        <div>
+          <h2>中美日韩主要指数与核心股票：回撤位置与顶底信号同屏观察</h2>
+          <p>覆盖美国、中国内地、香港及日韩市场 28 个行情标的，其中 27 个参与指数信号；信号卡展示行情回撤、短期 · 15分钟 / 中期 · 60分钟 / 长期 · 日线结构状态、关键位和可展开证据，万得小市值指数仅展示行情、涨跌与回撤。</p>
+        </div>
+        <div class="legend">
+          <span><i class="near-high"></i> 0-3% 高位附近</span>
+          <span><i class="moderate"></i> 3-8% 中等回撤</span>
+          <span><i class="deep"></i> 8%+ 深度回撤</span>
+        </div>
+      </section>
+
+      <section class="index-signal-dashboard" aria-label="指数顶底信号概览">
+        <div class="index-signal-heading">
+          <div>
+            <span class="index-signal-eyebrow">Index Signal Radar</span>
+            <h3>顶部 / 底部状态汇总</h3>
+            <p>多周期状态按当前规则同步；确认条件、盘中边界与跨周期要求均以服务端规则为准，信号异常不会影响行情卡片刷新。</p>
+            <p class="index-signal-decision-guard"><strong>仅观察 / 人工复核：</strong>评分不是概率；确认不是交易或自动下单指令。请结合仓位、流动性、止损与独立研究决定是否操作。</p>
+          </div>
+          <p id="indexSignalNotice" class="index-signal-notice" hidden></p>
+        </div>
+        <div id="indexSignalSummary" class="index-signal-summary" aria-live="polite">
+          <div class="signal-summary-item"><strong>0</strong><span>顶部预警</span></div>
+          <div class="signal-summary-item"><strong>0</strong><span>顶部确认</span></div>
+          <div class="signal-summary-item"><strong>0</strong><span>底部预警</span></div>
+          <div class="signal-summary-item"><strong>0</strong><span>底部确认</span></div>
+          <div class="signal-summary-item"><strong>0</strong><span>数据异常</span></div>
+        </div>
+        <div class="index-signal-layout">
+          <section class="index-signal-panel index-signal-daily-panel" aria-labelledby="indexSignalDailyTitle">
+            <div class="index-signal-panel-head">
+              <div>
+                <span class="index-signal-eyebrow">Today status</span>
+                <h4 id="indexSignalDailyTitle">今日扫描状态</h4>
+              </div>
+              <a class="index-signal-history-link" href="/index-signal-history">历史状态变化</a>
+            </div>
+            <div id="indexSignalDailyStatus" class="index-signal-daily-status" aria-live="polite">
+              <strong>等待今日扫描状态。</strong>
+              <span>独立通道启用后，14:55（北京时间）强制推送尾盘判断快照；15:10 按收盘数据复核，判断不一致时重新推送。日线确认仍仅以收盘完成数据为准。</span>
+            </div>
+            <details class="index-signal-score-guide">
+              <summary>评分怎么计算？（评分不是概率）</summary>
+              <p><strong>满分 80 分</strong>，用于描述当前完成 K 线上的结构与确认一致性；评分不是概率，日线确认不是交易或自动下单指令。</p>
+              <ul>
+                <li>结构证据最高 35 分；没有结构，不因均线、MACD 等单独升级。</li>
+                <li>趋势、动量、相对强弱都主要来自价格，相关价格类证据合计封顶 35 分，避免同一段行情重复计分。</li>
+                <li>量能证据最高 10 分；缺少成交量时贡献为 0，不把其余项目重新归一化。</li>
+                <li>15分钟 / 60分钟量能比较同一时间槽的前 20 个交易日 RVOL，不把开盘量和午间量混在同一基线。</li>
+                <li>预警、共振、确认、失效与过期是生命周期状态；确认只代表规则满足，仍需人工复核风险。</li>
+              </ul>
+              <p>分数门槛目前为暂定，必须经过样本外校准后才可评估其历史表现；页面会分别列出取数留存、形态识别窗与指标预热，三者不是同一个数量。</p>
+            </details>
+          </section>
+
+          <section id="indexSignalSettings" class="index-signal-panel index-signal-settings" aria-labelledby="indexSignalSettingsTitle">
+            <div class="index-signal-panel-head">
+              <div>
+                <span class="index-signal-eyebrow">Dedicated webhook</span>
+                <h4 id="indexSignalSettingsTitle">指数信号通知设置</h4>
+              </div>
+              <label class="index-signal-switch">
+                <input id="indexSignalEnabled" type="checkbox" />
+                <span>启用独立推送</span>
+              </label>
+            </div>
+            <label class="index-signal-webhook-field" for="indexSignalWebhook">
+              <span>钉钉 Webhook</span>
+              <input id="indexSignalWebhook" type="url" inputmode="url" autocomplete="off" placeholder="https://oapi.dingtalk.com/robot/send?..." />
+            </label>
+            <div class="index-signal-option-grid" aria-label="指数信号通知范围">
+              <label><input id="indexSignalShortEnabled" type="checkbox" checked />短期 · 15分钟</label>
+              <label><input id="indexSignalMediumEnabled" type="checkbox" checked />中期 · 60分钟</label>
+              <label><input id="indexSignalLongEnabled" type="checkbox" checked />长期 · 日线</label>
+              <label><input id="indexSignalWarningEnabled" type="checkbox" checked />预警</label>
+              <label><input id="indexSignalConfirmedEnabled" type="checkbox" checked />确认</label>
+              <label><input id="indexSignalInvalidatedEnabled" type="checkbox" checked />失效</label>
+            </div>
+            <div class="index-signal-setting-actions">
+              <button id="indexSignalSaveBtn" type="button">保存指数设置</button>
+              <button id="indexSignalTestBtn" type="button">测试 Webhook</button>
+            </div>
+            <div class="index-signal-results" aria-live="polite">
+              <p id="indexSignalTestResult">最近测试：暂无记录</p>
+              <p id="indexSignalPushResult">最近推送：暂无记录</p>
+            </div>
+          </section>
+        </div>
+
+        <section class="index-signal-panel index-signal-rule-panel" aria-labelledby="indexSignalRulesTitle">
+          <div class="index-signal-panel-head index-signal-rule-panel-head">
+            <div>
+              <span class="index-signal-eyebrow">Current rule set</span>
+              <h4 id="indexSignalRulesTitle">多周期形态判定规则</h4>
+              <p>规则由当前指数信号接口提供；短期 · 15分钟、中期 · 60分钟、长期 · 日线分别评估，是否可以单周期确认以接口规则为准。</p>
+            </div>
+            <span id="indexSignalRuleVersion" class="index-signal-rule-version">规则版本：等待加载</span>
+          </div>
+          <div id="indexSignalRules" class="index-signal-rule-grid" aria-live="polite">
+            <p class="index-signal-rule-empty">正在获取当前多周期规则。</p>
+          </div>
+        </section>
+      </section>
+
+      <section id="macroTelemetrySection" class="macro-telemetry-section" aria-labelledby="macroTelemetryTitle">
+        <div class="macro-telemetry-heading">
+          <div>
+            <p class="eyebrow">MACRO &amp; LEVERAGE TELEMETRY</p>
+            <h2 id="macroTelemetryTitle">宏观与杠杆指标</h2>
+            <p>美中 10Y/30Y 收益率、黄金储备与韩国融资的日度观察；收益率风险提示仅反映期限结构和相邻有效观测波动，不计入指数顶底信号。</p>
+          </div>
+          <span id="macroTelemetryUpdatedAt" class="macro-telemetry-updated">--</span>
+        </div>
+        <div id="macroTelemetryError" class="macro-telemetry-error" hidden></div>
+        <div id="macroTelemetryCards" class="macro-telemetry-grid"></div>
+      </section>
+      <template id="macroTelemetryCardTemplate">
+        <a class="macro-telemetry-card" data-field="detailLink">
+          <div class="macro-telemetry-card-head"><span data-field="region"></span><span data-field="source"></span></div>
+          <h3 data-field="name"></h3>
+          <div class="macro-telemetry-value"><strong data-field="value"></strong><span data-field="unit"></span></div>
+          <p data-field="change"></p>
+          <p data-field="asOf"></p>
+          <div data-field="signals" class="macro-signals"></div>
+          <span data-field="stale" hidden>缓存 / 过期</span>
+        </a>
+      </template>
+
+      <div id="errorBox" class="error-box" hidden></div>
+      <div id="groups" class="groups"></div>
+    </main>
+
+    <template id="groupTemplate">
+      <section class="market-section">
+        <div class="section-title">
+          <span class="section-bar"></span>
+          <h2></h2>
+          <p></p>
+        </div>
+        <div class="card-grid"></div>
+      </section>
+    </template>
+
+    <template id="cardTemplate">
+      <article class="index-card">
+        <span class="market-badge"></span>
+        <div class="card-head">
+          <h3></h3>
+          <span class="source"></span>
+        </div>
+        <div class="price"></div>
+        <div class="change"><span>今日涨跌</span><strong data-field="dailyChange">--</strong></div>
+        <div class="one-year-change"><span>近一年涨跌（非 YTD）</span><strong data-field="oneYearChange">--</strong></div>
+        <div class="signal-badges" aria-label="短期、中期与长期信号">
+          <span class="signal-badge signal-badge-short signal-none">短期 · 15分钟 · 无信号</span>
+          <span class="signal-badge signal-badge-medium signal-none">中期 · 60分钟 · 无信号</span>
+          <span class="signal-badge signal-badge-long signal-none">长期 · 日线 · 无信号</span>
+        </div>
+        <div class="drawdown-focus">
+          <span>距近3个月高点回撤</span>
+          <strong></strong>
+          <small></small>
+        </div>
+        <div class="drawdown-track"><span></span></div>
+        <dl class="stats">
+          <div><dt>最近3个月最高点</dt><dd data-field="peakHigh"></dd></div>
+          <div><dt>最高点日期</dt><dd data-field="peakDate"></dd></div>
+          <div><dt>最新数据日</dt><dd data-field="latestDate"></dd></div>
+          <div><dt>行情数据时点</dt><dd data-field="dataTime"></dd></div>
+          <div><dt>高点窗口状态</dt><dd data-field="windowCoverage"></dd></div>
+        </dl>
+          <div class="signal-card-meta">
+            <span data-field="signalEvaluatedAt">信号评估时间：--</span>
+            <span data-field="signalPhase">当前阶段：无活动信号</span>
+            <span data-field="signalConfirmation">确认条件：--</span>
+            <span data-field="signalMetrics">周期指标：--</span>
+            <span data-field="signalKeyLevel">关键结构位：--</span>
+            <span data-field="signalCompletedBar">信号对应K线：--</span>
+            <span data-field="signalDataQuality">数据质量：--</span>
+            <span data-field="signalConfluence">跨周期：--</span>
+          </div>
+        <details class="signal-evidence">
+          <summary>查看信号证据</summary>
+          <ul class="signal-evidence-list"><li>当前没有活动证据。</li></ul>
+        </details>
+      </article>
+    </template>
+
+    <script src="./macro_telemetry.js?v=macro-telemetry-20260809-2"></script>
+    <script src="./indices.js?v=wind-small-cap-20260905-1"></script>
+  </body>
+</html>
